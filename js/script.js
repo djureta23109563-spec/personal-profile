@@ -38,7 +38,6 @@ function typeEffect() {
     const currentPhrase = phrases[phraseIndex];
     
     if (!isDeleting) {
-        // Typing
         typedText.textContent = currentPhrase.substring(0, charIndex + 1);
         charIndex++;
         
@@ -49,7 +48,6 @@ function typeEffect() {
         }
         setTimeout(typeEffect, typingSpeed);
     } else {
-        // Deleting
         typedText.textContent = currentPhrase.substring(0, charIndex - 1);
         charIndex--;
         
@@ -149,70 +147,75 @@ if (skillsSection) {
 // ============================================
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    let isValid = true;
-    
-    // Validate name
-    const name = document.getElementById('name');
-    const nameError = document.getElementById('nameError');
-    if (name.value.trim().length < 2) {
-        nameError.textContent = 'Please enter your full name';
-        nameError.classList.add('show');
-        isValid = false;
-    } else {
-        nameError.classList.remove('show');
-    }
-    
-    // Validate email
-    const email = document.getElementById('email');
-    const emailError = document.getElementById('emailError');
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email.value.trim())) {
-        emailError.textContent = 'Please enter a valid email address';
-        emailError.classList.add('show');
-        isValid = false;
-    } else {
-        emailError.classList.remove('show');
-    }
-    
-    // Validate subject
-    const subject = document.getElementById('subject');
-    const subjectError = document.getElementById('subjectError');
-    if (subject.value.trim().length < 3) {
-        subjectError.textContent = 'Please enter a subject';
-        subjectError.classList.add('show');
-        isValid = false;
-    } else {
-        subjectError.classList.remove('show');
-    }
-    
-    // Validate message
-    const message = document.getElementById('message');
-    const messageError = document.getElementById('messageError');
-    if (message.value.trim().length < 10) {
-        messageError.textContent = 'Please enter a message (at least 10 characters)';
-        messageError.classList.add('show');
-        isValid = false;
-    } else {
-        messageError.classList.remove('show');
-    }
-    
-    if (isValid) {
-        // Success - show alert (in production, this would send the form)
-        alert('✅ Message sent successfully! Thank you for reaching out, Donato will get back to you soon.');
-        contactForm.reset();
-    }
-});
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        let isValid = true;
+        
+        // Validate name
+        const name = document.getElementById('name');
+        const nameError = document.getElementById('nameError');
+        if (name.value.trim().length < 2) {
+            nameError.textContent = 'Please enter your full name';
+            nameError.classList.add('show');
+            isValid = false;
+        } else {
+            nameError.classList.remove('show');
+        }
+        
+        // Validate email
+        const email = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email.value.trim())) {
+            emailError.textContent = 'Please enter a valid email address';
+            emailError.classList.add('show');
+            isValid = false;
+        } else {
+            emailError.classList.remove('show');
+        }
+        
+        // Validate subject
+        const subject = document.getElementById('subject');
+        const subjectError = document.getElementById('subjectError');
+        if (subject.value.trim().length < 3) {
+            subjectError.textContent = 'Please enter a subject';
+            subjectError.classList.add('show');
+            isValid = false;
+        } else {
+            subjectError.classList.remove('show');
+        }
+        
+        // Validate message
+        const message = document.getElementById('message');
+        const messageError = document.getElementById('messageError');
+        if (message.value.trim().length < 10) {
+            messageError.textContent = 'Please enter a message (at least 10 characters)';
+            messageError.classList.add('show');
+            isValid = false;
+        } else {
+            messageError.classList.remove('show');
+        }
+        
+        if (isValid) {
+            alert('✅ Message sent successfully! Thank you for reaching out, Donato will get back to you soon.');
+            contactForm.reset();
+        }
+    });
+}
 
 // ============================================
-// SMOOTH SCROLL FOR NAVIGATION
+// SMOOTH SCROLL FOR NAVIGATION (FIXED)
 // ============================================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-        e.preventDefault();
         const targetId = this.getAttribute('href');
+        
+        // Skip if href is just "#" (placeholder links)
+        if (targetId === '#') return;
+        
+        e.preventDefault();
         const target = document.querySelector(targetId);
         if (target) {
             target.scrollIntoView({
@@ -226,20 +229,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ============================================
 // PARALLAX EFFECT ON HOME IMAGE (optional)
 // ============================================
+const imageFrame = document.querySelector('.image-frame');
+
 window.addEventListener('mousemove', (e) => {
-    const imageWrapper = document.querySelector('.image-frame');
-    if (imageWrapper && window.innerWidth > 768) {
+    if (imageFrame && window.innerWidth > 768) {
         const x = (e.clientX / window.innerWidth - 0.5) * 10;
         const y = (e.clientY / window.innerHeight - 0.5) * 10;
-        imageWrapper.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+        imageFrame.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
     }
 });
 
 // Reset transform on mouse leave
 document.addEventListener('mouseleave', () => {
-    const imageWrapper = document.querySelector('.image-frame');
-    if (imageWrapper) {
-        imageWrapper.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    if (imageFrame) {
+        imageFrame.style.transform = 'rotateY(0deg) rotateX(0deg)';
     }
 });
 

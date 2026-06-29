@@ -84,6 +84,7 @@
                     </div>
                 </div>
                 <div class="contact-form-wrapper">
+                    <!-- Contact Form -->
                     <form id="contactForm" class="contact-form">
                         <div class="form-group">
                             <input type="text" id="name" placeholder="Your Name" required />
@@ -101,10 +102,17 @@
                             <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
                             <span class="error-message" id="messageError"></span>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-submit">
+                        <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">
                             <i class="fas fa-paper-plane"></i> Send Message
                         </button>
                     </form>
+
+                    <!-- Success Message (hidden by default) -->
+                    <div id="successMessage" style="display: none; text-align: center; padding: 30px 20px;">
+                        <i class="fas fa-check-circle" style="font-size: 4rem; color: #00b894; margin-bottom: 15px;"></i>
+                        <h3 style="color: var(--text-primary);">Message Sent! 🎉</h3>
+                        <p style="color: var(--text-secondary);">Thank you for reaching out. I'll get back to you soon!</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,6 +137,34 @@
         </div>
     </footer>
 
+    <!-- ===== FIREBASE SDK ===== -->
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6bjrmvbAP1uzfsfrYsn_sK1iDRPlJ2nA",
+            authDomain: "personal-portfolio-1686b.firebaseapp.com",
+            projectId: "personal-portfolio-1686b",
+            storageBucket: "personal-portfolio-1686b.firebasestorage.app",
+            messagingSenderId: "1072601304492",
+            appId: "1:1072601304492:web:7f08c6dbbd0319d3e6fe09"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Make db available globally for script.js
+        window.db = db;
+
+        console.log("✅ Firebase connected successfully!");
+        console.log("📁 Project ID:", firebaseConfig.projectId);
+    </script>
+
+    <!-- Custom JavaScript -->
     <script src="js/script.js"></script>
 </body>
 </html>
